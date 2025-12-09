@@ -1,0 +1,78 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* נוודא שהאפליקציה תופסת תמיד את כל הגובה */
+html, body, #root {
+  height: 100%;
+  margin: 0;
+}
+
+/* ============================================
+   Custom Scrollbar - Glassmorphism Style
+   ============================================ */
+
+/* Webkit browsers (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(15, 23, 42, 0.3); /* slate-900 with opacity */
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #64748b 0%, #475569 100%); /* slate-500 to slate-600 */
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #10b981 0%, #059669 100%); /* primary gradient */
+  box-shadow: 0 0 10px rgba(16, 185, 129, 0.4);
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #64748b rgba(15, 23, 42, 0.3);
+}
+
+/* ============================================
+   Utility Classes
+   ============================================ */
+
+/* Glass card hover effect */
+@layer utilities {
+  .glass-card {
+    @apply bg-white/40 backdrop-blur-md rounded-xl border border-white/60
+           transition-all duration-300;
+  }
+
+  .glass-card:hover {
+    @apply bg-white/60 shadow-xl border-white/80 -translate-y-1;
+  }
+
+  /* Glow shadow utilities */
+  .shadow-glow-primary {
+    box-shadow: 0 10px 40px -10px rgba(16, 185, 129, 0.4);
+  }
+
+  .shadow-glow-blue {
+    box-shadow: 0 10px 40px -10px rgba(59, 130, 246, 0.4);
+  }
+
+  .shadow-glow-purple {
+    box-shadow: 0 10px 40px -10px rgba(168, 85, 247, 0.4);
+  }
+
+  .shadow-glow-orange {
+    box-shadow: 0 10px 40px -10px rgba(249, 115, 22, 0.4);
+  }
+
+  .shadow-glow-pink {
+    box-shadow: 0 10px 40px -10px rgba(236, 72, 153, 0.4);
+  }
+}
