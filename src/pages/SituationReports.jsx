@@ -1,9 +1,19 @@
+import { useState } from 'react';
 import SmartFilterLayout from '../components/SmartFilterLayout';
 import { getSituationReportsData } from '../services/newMockData';
 import { Calendar, Download, Eye, FileBarChart } from 'lucide-react';
+import { Button } from '../components/Button';
+import Modal from '../components/Modal';
 
 const SituationReports = () => {
   const reports = getSituationReportsData();
+  const [selectedReport, setSelectedReport] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleViewReport = (report) => {
+    setSelectedReport(report);
+    setIsModalOpen(true);
+  };
 
   const renderReportCard = (report, index) => {
     const getSeverityColor = (tag) => {
@@ -66,26 +76,40 @@ const SituationReports = () => {
         </div>
 
         <div className="flex gap-2">
-          <button className="flex-1 px-4 py-2 bg-primary/20 hover:bg-primary/30 text-primary rounded-lg transition-all duration-300 flex items-center justify-center gap-2 font-medium text-sm hover:scale-105 active:scale-95">
+          <Button size="sm" className="flex-1" onClick={() => handleViewReport(report)}>
             <Eye size={16} />
             <span>צפייה</span>
-          </button>
-          <button className="flex-1 px-4 py-2 bg-white/60 hover:bg-white/80 text-slate-700 rounded-lg transition-all duration-300 flex items-center justify-center gap-2 font-medium text-sm hover:scale-105 active:scale-95">
+          </Button>
+          <Button variant="secondary" size="sm" className="flex-1">
             <Download size={16} />
             <span>הורדה</span>
-          </button>
+          </Button>
         </div>
       </div>
     );
   };
 
   return (
-    <SmartFilterLayout
-      title="דוחות מצב"
-      description="דוחות מצב עדכניים לכל הרמות והאזורים"
-      data={reports}
-      renderCard={renderReportCard}
-    />
+    <>
+      <SmartFilterLayout
+        title="דוחות מצב"
+        description="דוחות מצב עדכניים לכל הרמות והאזורים"
+        data={reports}
+        renderCard={renderReportCard}
+      />
+      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+        {selectedReport && (
+          <div>
+            <h2 className="text-2xl font-bold mb-4">{selectedReport.title}</h2>
+            <p className="text-slate-600 mb-4">{selectedReport.description}</p>
+            <div className="flex items-center gap-4 text-sm text-slate-500">
+              <span>{selectedReport.date}</span>
+              <span>{selectedReport.tag}</span>
+            </div>
+          </div>
+        )}
+      </Modal>
+    </>
   );
 };
 

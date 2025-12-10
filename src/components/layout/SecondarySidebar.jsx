@@ -1,14 +1,19 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Users, Laptop, Truck, DollarSign, Settings, ChevronLeft } from 'lucide-react';
+import { Users, Laptop, Truck, DollarSign, Settings, ChevronLeft, GitBranch, FileText, Map, Building2 } from 'lucide-react';
 import { getDepartments } from '../../services/mockData';
+import { Button } from '../Button';
 
 const iconMap = {
   Users: Users,
   Laptop: Laptop,
   Truck: Truck,
   DollarSign: DollarSign,
-  Settings: Settings
+  Settings: Settings,
+  GitBranch: GitBranch,
+  FileText: FileText,
+  Map: Map,
+  Building2: Building2
 };
 
 const SecondarySidebar = () => {
@@ -68,14 +73,11 @@ const SecondarySidebar = () => {
           const isActive = departmentId === dept.id;
 
           return (
-            <button
+            <Button
               key={dept.id}
               onClick={() => navigate(`/departments/${dept.id}`)}
-              className={`w-full text-right p-4 rounded-lg transition-all border-2 ${
-                isActive
-                  ? 'bg-primary/10 border-primary shadow-sm'
-                  : 'bg-slate-50 border-transparent hover:bg-slate-100 hover:border-slate-200'
-              }`}
+              variant={isActive ? 'default' : 'ghost'}
+              className="w-full text-right p-4 rounded-lg transition-all border-2"
             >
               <div className="flex items-center gap-3">
                 {/* Icon with color */}
@@ -89,7 +91,7 @@ const SecondarySidebar = () => {
                 {/* Text */}
                 <div className="flex-1 min-w-0">
                   <h3 className={`font-semibold text-sm ${
-                    isActive ? 'text-primary' : 'text-slate-800'
+                    isActive ? 'text-primary-foreground' : 'text-slate-800'
                   }`}>
                     {dept.name}
                   </h3>
@@ -98,10 +100,10 @@ const SecondarySidebar = () => {
 
                 {/* Arrow indicator for active */}
                 {isActive && (
-                  <ChevronLeft size={16} className="text-primary flex-shrink-0" />
+                  <ChevronLeft size={16} className="text-primary-foreground flex-shrink-0" />
                 )}
               </div>
-            </button>
+            </Button>
           );
         })}
       </nav>

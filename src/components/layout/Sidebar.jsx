@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import {
   Grid3x3, FileBarChart, BookOpen,
-  FolderOpen, GitMerge, Users, CalendarDays, Edit3, Save
+  FolderOpen, GitMerge, Users, CalendarDays, Edit3, Save, Building2, MessageSquare
 } from 'lucide-react';
 import logo from '../../assets/logo.png';
 import { useEditMode } from '../../contexts/EditModeContext';
+import Can from '../auth/Can';
 
 const Sidebar = () => {
   const navigate = useNavigate();
@@ -21,6 +23,7 @@ const Sidebar = () => {
     { icon: GitMerge, label: 'חפיפות', path: '/overlaps' },
     { icon: Users, label: 'אנשי קשר', path: '/contacts' },
     { icon: CalendarDays, label: 'לוח שנה', path: '/calendar' },
+    { icon: Building2, label: 'אגפים', path: '/departments' },
   ];
 
   const isActive = (path) => {
@@ -67,13 +70,13 @@ const Sidebar = () => {
               key={index}
               onClick={() => navigate(item.path)}
               className={`
-                group relative flex items-center gap-3 w-full py-3 flex-shrink-0
-                rounded-xl transition-all duration-500 border-l-4
+                group relative flex items-center gap-3 w-full py-2.5 flex-shrink-0
+                rounded-lg transition-all duration-300 border-l-4
                 ${isHovered ? 'px-4' : 'px-0 justify-center'}
                 ${
                   active
-                    ? 'text-white bg-white/10 backdrop-blur-md border-primary shadow-lg'
-                    : 'text-slate-400 border-transparent hover:text-white hover:bg-white/5 hover:backdrop-blur-sm hover:border-primary/50'
+                    ? 'text-white bg-primary-dark border-primary shadow-lg'
+                    : 'text-slate-400 border-transparent hover:text-white hover:bg-secondary/20 hover:border-primary/50'
                 }
               `}
               title={!isHovered ? item.label : undefined}
@@ -92,7 +95,7 @@ const Sidebar = () => {
 
               {/* Text label - only visible when hovered */}
               <span className={`text-sm font-medium whitespace-nowrap transition-all duration-500 ${
-                active ? 'text-primary' : ''
+                active ? 'text-white' : ''
               } ${
                 isHovered ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-4 absolute pointer-events-none'
               }`}>
@@ -108,19 +111,45 @@ const Sidebar = () => {
         })}
       </nav>
 
-      {/* Edit Mode Toggle - Bottom of Sidebar */}
-      {user.isAdmin && (
+      {/* Contact Us Button */}
+      <div className={`w-full flex-shrink-0 transition-all duration-500 ${isHovered ? 'px-3' : 'px-2'} mt-auto mb-2`}>
+        <button
+          onClick={() => {
+            // Placeholder for contact action
+            alert('צור קשר עם צוות הפיתוח');
+          }}
+          className={`
+            group relative flex items-center gap-3 w-full py-2.5 flex-shrink-0
+            rounded-lg transition-all duration-300
+            ${isHovered ? 'px-4' : 'px-0 justify-center'}
+            text-slate-400 border-transparent hover:text-white hover:bg-secondary/20
+          `}
+          title={!isHovered ? 'צור קשר' : undefined}
+        >
+          <MessageSquare size={24} strokeWidth={2} className="transition-all duration-300 flex-shrink-0" />
+          <span className={`text-xs font-medium whitespace-nowrap transition-all duration-500 ${
+            isHovered ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-4 absolute pointer-events-none'
+          }`}>
+            צור קשר
+          </span>
+        </button>
+      </div>
+
+      {/* Edit Mode Toggle - Bottom of Sidebar (RBAC Protected) */}
+      <Can perform="edit_content">
         <div className={`w-full flex-shrink-0 transition-all duration-500 ${isHovered ? 'px-3' : 'px-2'}`}>
-          <button
+          <motion.button
             onClick={toggleEditMode}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
             className={`
               group relative flex items-center gap-3 w-full py-3 flex-shrink-0
               rounded-xl transition-all duration-500 border-2
               ${isHovered ? 'px-4' : 'px-0 justify-center'}
               ${
                 isEditMode
-                  ? 'bg-green-500/20 border-green-500 text-green-400 shadow-lg'
-                  : 'bg-white/5 border-white/20 text-slate-400 hover:bg-white/10 hover:border-primary/50 hover:text-white'
+                  ? 'bg-destructive/20 border-destructive text-destructive-foreground shadow-lg'
+                  : 'bg-secondary/20 border-secondary text-secondary-foreground hover:bg-secondary/30 hover:border-primary/50 hover:text-white'
               }
             `}
             title={!isHovered ? (isEditMode ? 'שמור שינויים' : 'מצב עריכה') : undefined}
@@ -145,9 +174,9 @@ const Sidebar = () => {
             {isEditMode && (
               <div className="absolute inset-0 rounded-xl bg-green-500 animate-ping opacity-10" />
             )}
-          </button>
+          </motion.button>
         </div>
-      )}
+      </Can>
     </aside>
   );
 };

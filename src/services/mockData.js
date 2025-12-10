@@ -78,39 +78,60 @@ export const getDepartments = async () => {
   await delay(250);
   return [
     {
-      id: "hr",
-      name: "משאבי אנוש",
+      id: "dev",
+      name: "אגף פיתוח",
+      icon: "GitBranch",
+      description: "מחקר ופיתוח טכנולוגי",
+      color: "blue",
+      template: "development"
+    },
+    {
+      id: "pub",
+      name: "אגף הוצאה לאור",
+      icon: "FileText",
+      description: "פרסומים ומסמכים",
+      color: "purple",
+      template: "publishing"
+    },
+    {
+      id: "geo",
+      name: "אגף תוכן גיאוגרפי",
+      icon: "Map",
+      description: "מידע גיאוגרפי ותוכן",
+      color: "orange",
+      template: "geo-content"
+    },
+    {
+      id: "complex",
+      name: "אגף 4",
+      icon: "Building2",
+      description: "אגף רב-תחומי מורכב",
+      color: "green",
+      template: "complex"
+    },
+    {
+      id: "standard1",
+      name: "אגף משאבי אנוש",
       icon: "Users",
       description: "ניהול כוח אדם וגיוס",
-      color: "blue"
+      color: "blue",
+      template: "standard"
     },
     {
-      id: "it",
-      name: "מערכות מידע",
-      icon: "Laptop",
-      description: "תשתיות טכנולוגיות ותמיכה",
-      color: "purple"
-    },
-    {
-      id: "logistics",
-      name: "לוגיסטיקה",
+      id: "standard2",
+      name: "אגף לוגיסטיקה",
       icon: "Truck",
       description: "ניהול שרשרת אספקה",
-      color: "orange"
+      color: "red",
+      template: "standard"
     },
     {
-      id: "finance",
-      name: "כספים",
+      id: "standard3",
+      name: "אגף כספים",
       icon: "DollarSign",
       description: "ניהול תקציב וחשבונאות",
-      color: "green"
-    },
-    {
-      id: "operations",
-      name: "תפעול",
-      icon: "Settings",
-      description: "תפעול שוטף וניהול מערכות",
-      color: "red"
+      color: "green",
+      template: "standard"
     }
   ];
 };
@@ -159,6 +180,113 @@ export const getDepartmentActions = async (departmentId) => {
   };
 
   return actionsMap[departmentId] || [];
+};
+
+// News Ticker Data (for Geo-Content Department)
+export const getNewsTicker = async () => {
+  await delay(200);
+  return [
+    "עדכון: פורסם מפת שטח חדשה לאזור הצפון",
+    "דוח חדש: סקר גיאוגרפי מקיף של אזור המרכז",
+    "התראה: שינויים בנתוני GIS - נא לעדכן מערכות",
+    "חדש: ספריית מדיה גיאוגרפית מורחבת",
+    "עדכון שטח: מידע מעודכן על אזורי דרום"
+  ];
+};
+
+// Sections (Madorim) Data for Complex Department
+export const getDepartmentSections = async (departmentId) => {
+  await delay(200);
+
+  if (departmentId !== 'complex') return [];
+
+  return [
+    {
+      id: 1,
+      name: "מדור תכנון אסטרטגי",
+      icon: "Target",
+      color: "blue",
+      description: "תכנון ארוך טווח ואסטרטגיה ארגונית"
+    },
+    {
+      id: 2,
+      name: "מדור מחקר ופיתוח",
+      icon: "Beaker",
+      color: "purple",
+      description: "מחקרים, ניסויים וחדשנות"
+    },
+    {
+      id: 3,
+      name: "מדור ניתוח נתונים",
+      icon: "BarChart3",
+      color: "orange",
+      description: "ניתוח מידע וביג דאטה"
+    },
+    {
+      id: 4,
+      name: "מדור תקשורת",
+      icon: "Wifi",
+      color: "green",
+      description: "תשתיות תקשורת ורשתות"
+    },
+    {
+      id: 5,
+      name: "מדור בטיחות",
+      icon: "ShieldCheck",
+      color: "red",
+      description: "בטיחות ואבטחת מידע"
+    },
+    {
+      id: 6,
+      name: "מדור הדרכה",
+      icon: "GraduationCap",
+      color: "blue",
+      description: "הדרכות וקורסים מקצועיים"
+    }
+  ];
+};
+
+// Section Content Data (for Complex Department sub-routes)
+export const getSectionContent = async (sectionId, contentType) => {
+  await delay(200);
+
+  const contentMap = {
+    documents: [
+      { id: 1, title: "מסמך תכנון 2024", date: "2024-01-15", type: "PDF" },
+      { id: 2, title: "דוח פעילות חודשי", date: "2024-02-01", type: "DOCX" },
+      { id: 3, title: "נהלי עבודה מעודכנים", date: "2024-02-15", type: "PDF" }
+    ],
+    media: [
+      { id: 1, title: "מצגת השקת פרויקט", date: "2024-01-20", type: "PPTX" },
+      { id: 2, title: "וידאו הדרכה", date: "2024-02-05", type: "MP4" },
+      { id: 3, title: "אינפוגרפיקה", date: "2024-02-10", type: "PNG" }
+    ],
+    data: [
+      { id: 1, title: "נתוני ביצועים Q1", date: "2024-01-25", type: "XLSX" },
+      { id: 2, title: "סטטיסטיקות שימוש", date: "2024-02-08", type: "CSV" },
+      { id: 3, title: "דוח מדדים", date: "2024-02-12", type: "XLSX" }
+    ],
+    links: [
+      { id: 1, title: "מערכת ניהול פרויקטים", url: "#", type: "External" },
+      { id: 2, title: "פורטל עובדים", url: "#", type: "Internal" },
+      { id: 3, title: "מאגר ידע מרכזי", url: "#", type: "Internal" }
+    ]
+  };
+
+  return contentMap[contentType] || [];
+};
+
+// Section About Info
+export const getSectionAbout = async (sectionId) => {
+  await delay(150);
+  return {
+    title: "אודות המדור",
+    description: "מדור זה אחראי על תכנון, ביצוע וניהול פעילות מרכזית בארגון. הצוות כולל מומחים מנוסים בתחומים שונים.",
+    manager: "דר' יוסי כהן",
+    team: 12,
+    established: "2018",
+    contact: "extension: 1234"
+  };
 };
 
 // All Real-Time Metrics (for convenience)

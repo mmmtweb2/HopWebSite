@@ -1,20 +1,21 @@
 import { useState, useEffect } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
 import Sidebar from './Sidebar';
 import Clock from '../Clock';
 import GlobalSearch from '../GlobalSearch';
-import { getUserInfo } from '../../services/mockData';
+import { useAuth } from '../../contexts/AuthContext';
 
 const MainLayout = () => {
+  const { user } = useAuth();
+  const location = useLocation();
   const [userInfo, setUserInfo] = useState({ name: 'טוען...', role: '' });
 
   useEffect(() => {
-    const fetchUserInfo = async () => {
-      const data = await getUserInfo();
-      setUserInfo(data);
-    };
-    fetchUserInfo();
-  }, []);
+    if (user) {
+      setUserInfo({ name: user.name, role: user.role });
+    }
+  }, [user]);
 
   return (
     <div dir="rtl" className="flex h-screen w-screen overflow-hidden font-sans text-slate-900 relative">
@@ -57,9 +58,20 @@ const MainLayout = () => {
            </div>
         </header>
 
-        {/* תוכן ראשי */}
+        {/* תוכן ראשי with Page Transitions */}
         <main className="flex-1 overflow-auto relative">
-          <Outlet />
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={location.pathname}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3, ease: 'easeInOut' }}
+              className="h-full"
+            >
+              <Outlet />
+            </motion.div>
+          </AnimatePresence>
         </main>
 
       </div>

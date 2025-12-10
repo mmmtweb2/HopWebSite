@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { GitMerge, ChevronRight, GitBranch } from 'lucide-react';
 import { getOverlapsData, getOverlapsTypes } from '../services/newMockData';
+import { Button } from '../components/Button';
 
 const Overlaps = () => {
   const [selectedArea, setSelectedArea] = useState(null);
@@ -42,28 +43,23 @@ const Overlaps = () => {
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {areas.map((area) => (
-            <button
+            <Button
               key={area.id}
               onClick={() => {
                 setSelectedArea(area.id);
                 setSelectedType(null);
               }}
-              className={`group relative h-32 rounded-xl overflow-hidden transition-all duration-300 ${
-                selectedArea === area.id
-                  ? 'scale-105 shadow-2xl ring-4 ring-primary'
-                  : 'hover:scale-102 hover:shadow-lg'
-              }`}
+              variant={selectedArea === area.id ? 'default' : 'outline'}
+              size="lg"
+              className="h-20"
             >
-              <div className={`absolute inset-0 bg-gradient-to-br ${area.color} opacity-90`} />
-              <div className="relative h-full flex flex-col items-center justify-center text-white p-6">
-                <h3 className="text-2xl font-light mb-1">{area.label}</h3>
-                {selectedArea === area.id && (
-                  <div className="mt-2 px-3 py-1 bg-white/20 backdrop-blur-sm rounded-full text-sm font-medium">
-                    נבחר
-                  </div>
-                )}
-              </div>
-            </button>
+              <h3 className="text-xl font-light mb-1">{area.label}</h3>
+              {selectedArea === area.id && (
+                <div className="mt-2 px-3 py-1 bg-white/20 backdrop-blur-sm rounded-full text-sm font-medium">
+                  נבחר
+                </div>
+              )}
+            </Button>
           ))}
         </div>
       </div>
@@ -77,22 +73,16 @@ const Overlaps = () => {
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {types.map((type) => (
-              <button
+              <Button
                 key={type.id}
                 onClick={() => setSelectedType(type.id)}
-                className={`glass-card p-5 text-right transition-all duration-300 ${
-                  selectedType === type.id
-                    ? 'bg-primary/20 border-primary shadow-lg scale-105'
-                    : 'hover:scale-102'
-                }`}
+                variant={selectedType === type.id ? 'default' : 'outline'}
+                size="sm"
+                className="flex items-center gap-3"
               >
-                <div className="flex items-center gap-3">
-                  <GitBranch size={24} className={selectedType === type.id ? 'text-primary' : 'text-slate-600'} />
-                  <span className={`text-sm font-medium ${selectedType === type.id ? 'text-primary' : 'text-slate-700'}`}>
-                    {type.label}
-                  </span>
-                </div>
-              </button>
+                <GitBranch size={24} />
+                <span className="text-sm font-medium">{type.label}</span>
+              </Button>
             ))}
           </div>
         </div>

@@ -40,7 +40,7 @@ const SmartFilterLayout = ({ title, description, data, renderCard }) => {
   }, [showAreaFilter]);
 
   return (
-    <div className="h-full flex flex-col p-8">
+    <div className="p-8">
       {/* Header */}
       <div className="mb-8">
         <h1 className="text-4xl font-light text-slate-800 mb-2 leading-relaxed">
@@ -125,7 +125,7 @@ const SmartFilterLayout = ({ title, description, data, renderCard }) => {
       </div>
 
       {/* Results Grid */}
-      <div className="flex-1 overflow-auto">
+      <div>
         {filteredData.length === 0 ? (
           <div className="flex items-center justify-center h-64">
             <div className="text-center">

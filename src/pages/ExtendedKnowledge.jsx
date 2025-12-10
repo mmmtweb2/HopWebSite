@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { FolderOpen, ChevronRight, FileText } from 'lucide-react';
 import { getExtendedKnowledgeData, getExtendedKnowledgeTypes } from '../services/newMockData';
+import { Button } from '../components/Button';
 
 const ExtendedKnowledge = () => {
   const [selectedArea, setSelectedArea] = useState(null);
@@ -42,28 +43,23 @@ const ExtendedKnowledge = () => {
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           {areas.map((area) => (
-            <button
+            <Button
               key={area.id}
               onClick={() => {
                 setSelectedArea(area.id);
                 setSelectedType(null);
               }}
-              className={`group relative h-32 rounded-xl overflow-hidden transition-all duration-300 ${
-                selectedArea === area.id
-                  ? 'scale-105 shadow-2xl ring-4 ring-primary'
-                  : 'hover:scale-102 hover:shadow-lg'
-              }`}
+              variant={selectedArea === area.id ? 'default' : 'outline'}
+              size="lg"
+              className="h-20"
             >
-              <div className={`absolute inset-0 bg-gradient-to-br ${area.color} opacity-90`} />
-              <div className="relative h-full flex flex-col items-center justify-center text-white p-6">
-                <h3 className="text-2xl font-light mb-1">{area.label}</h3>
-                {selectedArea === area.id && (
-                  <div className="mt-2 px-3 py-1 bg-white/20 backdrop-blur-sm rounded-full text-sm font-medium">
-                    נבחר
-                  </div>
-                )}
-              </div>
-            </button>
+              <h3 className="text-xl font-light mb-1">{area.label}</h3>
+              {selectedArea === area.id && (
+                <div className="mt-2 px-3 py-1 bg-white/20 backdrop-blur-sm rounded-full text-xs font-medium">
+                  נבחר
+                </div>
+              )}
+            </Button>
           ))}
         </div>
       </div>
