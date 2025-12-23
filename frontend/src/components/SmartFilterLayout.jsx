@@ -1,17 +1,57 @@
 import { useState, useEffect } from 'react';
-import { Filter, Download, Eye, Calendar } from 'lucide-react';
+import { Filter, Download, Eye, Calendar, CalendarRange } from 'lucide-react';
 
 const SmartFilterLayout = ({ title, description, data, renderCard }) => {
   const [timeFilter, setTimeFilter] = useState('all');
   const [levelFilter, setLevelFilter] = useState('all');
   const [areaFilter, setAreaFilter] = useState('all');
+  const [dateRangeFilter, setDateRangeFilter] = useState('all');
+  const [customStartDate, setCustomStartDate] = useState('');
+  const [customEndDate, setCustomEndDate] = useState('');
   const [filteredData, setFilteredData] = useState(data);
+
+  // Helper function to calculate date range
+  const getDateRange = (rangeType) => {
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    switch (rangeType) {
+      case 'today':
+        return { start: today, end: today };
+      case 'week':
+        const weekAgo = new Date(today);
+        weekAgo.setDate(today.getDate() - 7);
+        return { start: weekAgo, end: today };
+      case 'month':
+        const monthAgo = new Date(today);
+        monthAgo.setMonth(today.getMonth() - 1);
+        return { start: monthAgo, end: today };
+      case '3months':
+        const threeMonthsAgo = new Date(today);
+        threeMonthsAgo.setMonth(today.getMonth() - 3);
+        return { start: threeMonthsAgo, end: today };
+      case 'year':
+        const yearAgo = new Date(today);
+        yearAgo.setFullYear(today.getFullYear() - 1);
+        return { start: yearAgo, end: today };
+      case 'custom':
+        if (customStartDate && customEndDate) {
+          return {
+            start: new Date(customStartDate),
+            end: new Date(customEndDate)
+          };
+        }
+        return null;
+      default:
+        return null;
+    }
+  };
 
   // Filter logic
   useEffect(() => {
     let result = [...data];
 
-    // Time filter
+    // Time filter (frequency: daily, weekly, periodic)
     if (timeFilter !== 'all') {
       result = result.filter(item => item.timeCategory === timeFilter);
     }
@@ -26,8 +66,21 @@ const SmartFilterLayout = ({ title, description, data, renderCard }) => {
       result = result.filter(item => item.area === areaFilter);
     }
 
+    // Date range filter (based on actual document date)
+    if (dateRangeFilter !== 'all') {
+      const range = getDateRange(dateRangeFilter);
+      if (range) {
+        result = result.filter(item => {
+          if (!item.date) return false;
+          const itemDate = new Date(item.date);
+          itemDate.setHours(0, 0, 0, 0);
+          return itemDate >= range.start && itemDate <= range.end;
+        });
+      }
+    }
+
     setFilteredData(result);
-  }, [timeFilter, levelFilter, areaFilter, data]);
+  }, [timeFilter, levelFilter, areaFilter, dateRangeFilter, customStartDate, customEndDate, data]);
 
   // Determine if area filter should be shown
   const showAreaFilter = levelFilter === 'regional' || levelFilter === 'sub-regional';
@@ -52,10 +105,10 @@ const SmartFilterLayout = ({ title, description, data, renderCard }) => {
       </div>
 
       {/* Smart Filters Bar - Glassmorphism */}
-      <div className="bg-white/40 backdrop-blur-md rounded-xl border border-white/60 shadow-lg p-6 mb-8">
+      <div className="bg-white/40 backdrop-blur-md rounded-xl border border-white/60 shadow-lg p-6 mb-4">
         <div className="flex items-center gap-2 mb-4">
           <Filter size={20} className="text-primary" />
-          <h2 className="text-lg font-medium text-slate-800">סינון חכם</h2>
+          <h2 className="text-lg font-medium text-slate-800">סינון לפי קטגוריה</h2>
         </div>
 
         <div className={`grid gap-4 ${showAreaFilter ? 'grid-cols-1 md:grid-cols-3' : 'grid-cols-1 md:grid-cols-2'}`}>
@@ -63,7 +116,7 @@ const SmartFilterLayout = ({ title, description, data, renderCard }) => {
           <div>
             <label className="flex items-center gap-2 text-sm font-medium text-slate-700 mb-2">
               <Calendar size={16} />
-              <span>זמן</span>
+              <span>תדירות פרסום</span>
             </label>
             <select
               value={timeFilter}
@@ -115,11 +168,74 @@ const SmartFilterLayout = ({ title, description, data, renderCard }) => {
             </div>
           )}
         </div>
+      </div>
+
+      {/* Date Range Filter - Separate Section */}
+      <div className="bg-gradient-to-br from-primary/5 to-emerald-50/50 backdrop-blur-md rounded-xl border border-primary/20 shadow-lg p-6 mb-8">
+        <div className="flex items-center gap-2 mb-4">
+          <CalendarRange size={20} className="text-primary" />
+          <h2 className="text-lg font-medium text-slate-800">סינון לפי טווח תאריכים</h2>
+        </div>
+
+        <div className="grid gap-4 grid-cols-1 md:grid-cols-2">
+          {/* Date Range Preset */}
+          <div>
+            <label className="flex items-center gap-2 text-sm font-medium text-slate-700 mb-2">
+              <Calendar size={16} />
+              <span>בחר טווח</span>
+            </label>
+            <select
+              value={dateRangeFilter}
+              onChange={(e) => {
+                setDateRangeFilter(e.target.value);
+                if (e.target.value !== 'custom') {
+                  setCustomStartDate('');
+                  setCustomEndDate('');
+                }
+              }}
+              className="w-full px-4 py-3 bg-white/60 backdrop-blur-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all font-medium"
+            >
+              <option value="all">כל התאריכים</option>
+              <option value="today">היום</option>
+              <option value="week">שבוע אחרון</option>
+              <option value="month">חודש אחרון</option>
+              <option value="3months">3 חודשים אחרונים</option>
+              <option value="year">שנה אחרונה</option>
+              <option value="custom">טווח מותאם אישית</option>
+            </select>
+          </div>
+
+          {/* Custom Date Range (Conditional) */}
+          {dateRangeFilter === 'custom' && (
+            <div className="animate-fadeIn md:col-span-1">
+              <label className="flex items-center gap-2 text-sm font-medium text-slate-700 mb-2">
+                <CalendarRange size={16} />
+                <span>תאריכים מותאמים אישית</span>
+              </label>
+              <div className="grid grid-cols-2 gap-2">
+                <input
+                  type="date"
+                  value={customStartDate}
+                  onChange={(e) => setCustomStartDate(e.target.value)}
+                  className="px-3 py-3 bg-white/60 backdrop-blur-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all text-sm"
+                  placeholder="תאריך התחלה"
+                />
+                <input
+                  type="date"
+                  value={customEndDate}
+                  onChange={(e) => setCustomEndDate(e.target.value)}
+                  className="px-3 py-3 bg-white/60 backdrop-blur-sm border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all text-sm"
+                  placeholder="תאריך סיום"
+                />
+              </div>
+            </div>
+          )}
+        </div>
 
         {/* Results Count */}
-        <div className="mt-4 pt-4 border-t border-slate-200/50">
-          <p className="text-sm text-slate-600">
-            מציג <span className="font-semibold text-primary">{filteredData.length}</span> תוצאות
+        <div className="mt-4 pt-4 border-t border-primary/10">
+          <p className="text-sm text-slate-700 font-medium">
+            מציג <span className="font-bold text-primary text-lg">{filteredData.length}</span> תוצאות
           </p>
         </div>
       </div>

@@ -1,0 +1,77 @@
+[
+  {
+    "_id": "mjgzi5zf2q3gv1o4bkn",
+    "username": "user.basic",
+    "fullName": "משתמש בסיסי",
+    "email": "user.basic@organization.com",
+    "adfsGroups": [
+      "Portal_Users"
+    ],
+    "role": "viewer",
+    "isActive": true,
+    "createdAt": "2025-12-22T09:59:27.435Z",
+    "updatedAt": "2025-12-22T09:59:27.435Z"
+  },
+  {
+    "_id": "mjgzi5zfdw8enudy46p",
+    "username": "employee.regular",
+    "fullName": "עובד רגיל",
+    "email": "employee@organization.com",
+    "adfsGroups": [
+      "Portal_Users",
+      "Portal_Employees"
+    ],
+    "role": "viewer",
+    "isActive": true,
+    "createdAt": "2025-12-22T09:59:27.435Z",
+    "updatedAt": "2025-12-22T09:59:27.435Z"
+  },
+  {
+    "_id": "mjgzi5zfx1m70mt9f7p",
+    "username": "manager.department",
+    "fullName": "מנהל מחלקה",
+    "email": "manager@organization.com",
+    "adfsGroups": [
+      "Portal_Users",
+      "Portal_Employees",
+      "Portal_Managers"
+    ],
+    "role": "editor",
+    "isActive": true,
+    "createdAt": "2025-12-22T09:59:27.435Z",
+    "updatedAt": "2025-12-22T09:59:27.435Z"
+  },
+  {
+    "_id": "mjgzi5zfae7hji9n50u",
+    "username": "executive.senior",
+    "fullName": "מנכ\"ל בכיר",
+    "email": "executive@organization.com",
+    "adfsGroups": [
+      "Portal_Users",
+      "Portal_Employees",
+      "Portal_Managers",
+      "Portal_Executives"
+    ],
+    "role": "editor",
+    "isActive": true,
+    "createdAt": "2025-12-22T09:59:27.435Z",
+    "updatedAt": "2025-12-22T09:59:27.435Z"
+  },
+  {
+    "_id": "mjgzi5zfrwmw6mld0mi",
+    "username": "admin.security",
+    "fullName": "מנהל אבטחה",
+    "email": "admin@organization.com",
+    "adfsGroups": [
+      "Portal_Users",
+      "Portal_Employees",
+      "Portal_Managers",
+      "Portal_Executives",
+      "Portal_TopSecret"
+    ],
+    "role": "admin",
+    "isActive": true,
+    "createdAt": "2025-12-22T09:59:27.435Z",
+    "updatedAt": "2025-12-22T09:59:27.435Z"
+  }
+]

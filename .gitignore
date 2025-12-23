@@ -7,9 +7,23 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
+# Frontend dependencies and build
+frontend/node_modules
+frontend/dist
+frontend/dist-ssr
+frontend/.vite
+
+# Backend dependencies and build
+backend/node_modules
+backend/dist
+
+# Environment variables
+backend/.env
+
+# Uploaded files
+backend/uploads
+
+# Local files
 *.local
 
 # Editor directories and files

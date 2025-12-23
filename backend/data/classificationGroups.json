@@ -1,0 +1,47 @@
+[
+  {
+    "_id": "mjgzi5zbx9l2wju4ydm",
+    "adfsGroupName": "Portal_Users",
+    "level": 1,
+    "description": "Basic portal users - can view public content",
+    "isActive": true,
+    "createdAt": "2025-12-22T09:59:27.431Z",
+    "updatedAt": "2025-12-22T09:59:27.432Z"
+  },
+  {
+    "_id": "mjgzi5zcdhtsyxmblsk",
+    "adfsGroupName": "Portal_Employees",
+    "level": 2,
+    "description": "Regular employees - can view internal content",
+    "isActive": true,
+    "createdAt": "2025-12-22T09:59:27.432Z",
+    "updatedAt": "2025-12-22T09:59:27.432Z"
+  },
+  {
+    "_id": "mjgzi5zc6og4e35es0f",
+    "adfsGroupName": "Portal_Managers",
+    "level": 3,
+    "description": "Department managers - can view sensitive content",
+    "isActive": true,
+    "createdAt": "2025-12-22T09:59:27.432Z",
+    "updatedAt": "2025-12-22T09:59:27.432Z"
+  },
+  {
+    "_id": "mjgzi5zcglfdoj5noo",
+    "adfsGroupName": "Portal_Executives",
+    "level": 4,
+    "description": "Senior executives - can view confidential content",
+    "isActive": true,
+    "createdAt": "2025-12-22T09:59:27.432Z",
+    "updatedAt": "2025-12-22T09:59:27.432Z"
+  },
+  {
+    "_id": "mjgzi5zc80nelq4rmix",
+    "adfsGroupName": "Portal_TopSecret",
+    "level": 5,
+    "description": "Top security clearance - can view all classified content",
+    "isActive": true,
+    "createdAt": "2025-12-22T09:59:27.432Z",
+    "updatedAt": "2025-12-22T09:59:27.432Z"
+  }
+]
